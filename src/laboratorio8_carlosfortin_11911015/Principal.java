@@ -92,6 +92,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         ta_msj = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         Tabla_buzonmsjs = new javax.swing.JTable();
@@ -457,6 +458,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel17.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel17.setText("ChatsApp");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -471,24 +475,29 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
                             .addComponent(jScrollPane4)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(300, 300, 300)
-                        .addComponent(jButton1)))
+                        .addGap(301, 301, 301)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(303, 303, 303)
+                        .addComponent(jLabel17)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
         );
 
         jTabbedPane1.addTab("Enviar un Mensaje", jPanel3);
@@ -907,16 +916,21 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jb_llamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_llamarMouseClicked
-        if(Tabla_contllam.getSelectedRow()>=0){
-            String n=Tabla_contllam.getValueAt(Tabla_contllam.getSelectedRow(), 1).toString();
-            for (Contacto c : contactos) {
-                if(c.getNumero().equals(n)){
-                    mod=c;
-                    break;
+        if(x==false){
+            if(Tabla_contllam.getSelectedRow()>=0){
+                String n=Tabla_contllam.getValueAt(Tabla_contllam.getSelectedRow(), 1).toString();
+                for (Contacto c : contactos) {
+                    if(c.getNumero().equals(n)){
+                        mod=c;
+                        break;
+                    }
                 }
+                al=new adminLlamada(tiempo_llamada);
+                al.start();
+                x=true;
             }
-            al=new adminLlamada(tiempo_llamada);
-            al.start();
+        }else{
+            JOptionPane.showMessageDialog(this, "No puede hacer 2 llamadas a la vez");
         }
     }//GEN-LAST:event_jb_llamarMouseClicked
 
@@ -926,6 +940,7 @@ public class Principal extends javax.swing.JFrame {
         DateFormat f=new SimpleDateFormat("dd/MM/yyyy");
         llamadas.add(new llamada(actual.getNombre(), mod.getNombre(), f.format(d), tiempo_llamada.getText()));
         tiempo_llamada.setText("00:00:00");
+        x=false;
         actualizarRegistroLlamadas();
     }//GEN-LAST:event_jb_colgarMouseClicked
 
@@ -1180,6 +1195,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1225,4 +1241,5 @@ public class Principal extends javax.swing.JFrame {
     Dba db=new Dba("./Contactos.accdb");
     Contacto mod=null;
     adminLlamada al;
+    Boolean x=false;
 }
