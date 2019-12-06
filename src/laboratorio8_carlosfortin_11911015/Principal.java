@@ -8,7 +8,9 @@ package laboratorio8_carlosfortin_11911015;
 import com.healthmarketscience.jackcess.query.Query;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,7 +28,12 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         leerContactos();
+        leerMensajes();
         actualizarTablaContactos();
+        actualizarContactosMsj();
+        actualizarContactosLlamada();
+        actualizarBuzonMensajes();
+        al=new adminLlamada(tiempo_llamada, actual.getNombre(), mod.getNombre());
     }
 
     /**
@@ -93,6 +100,8 @@ public class Principal extends javax.swing.JFrame {
         Tabla_contllam = new javax.swing.JTable();
         jb_llamar = new javax.swing.JButton();
         jb_colgar = new javax.swing.JButton();
+        tiempo_llamada = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -432,13 +441,18 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(Tabla_contmsj);
 
-        jLabel8.setText("jLabel8");
+        jLabel8.setText("Mensaje");
 
         ta_msj.setColumns(20);
         ta_msj.setRows(5);
         jScrollPane4.setViewportView(ta_msj);
 
         jButton1.setText("Enviar Mensaje");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -481,7 +495,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Emisor", "Receptor", "Hora", "Mensaje"
+                "Emisor", "Receptor", "Fecha", "Mensaje"
             }
         ) {
             Class[] types = new Class [] {
@@ -548,8 +562,17 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane6.setViewportView(Tabla_contllam);
 
         jb_llamar.setText("LLamar");
+        jb_llamar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_llamarMouseClicked(evt);
+            }
+        });
 
         jb_colgar.setText("Colgar");
+
+        tiempo_llamada.setText("00:00");
+
+        jLabel16.setText("Tiempo de llamada");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -557,8 +580,13 @@ public class Principal extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel16)
+                        .addGap(75, 75, 75)
+                        .addComponent(tiempo_llamada))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -572,7 +600,10 @@ public class Principal extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jLabel9)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(tiempo_llamada)
+                    .addComponent(jLabel16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
@@ -653,6 +684,8 @@ public class Principal extends javax.swing.JFrame {
                     }
                     db.desconectar();
                     actualizarTablaContactos();
+                    actualizarContactosMsj();
+                    actualizarContactosLlamada();
             } 
         }
         tf_nombre.setText("");
@@ -691,6 +724,8 @@ public class Principal extends javax.swing.JFrame {
         db.desconectar();
         mod.setNombre(nombre);
         actualizarTablaContactos();
+        actualizarContactosMsj();
+        actualizarContactosLlamada();
         tf_modnom.setText("");
     }//GEN-LAST:event_jButton4MouseClicked
 
@@ -715,6 +750,8 @@ public class Principal extends javax.swing.JFrame {
             db.desconectar();
             mod.setNumero(numero);
             actualizarTablaContactos();
+            actualizarContactosMsj();
+            actualizarContactosLlamada();
         }
         ff_modtel.setText("");
     }//GEN-LAST:event_jButton5MouseClicked
@@ -731,6 +768,8 @@ public class Principal extends javax.swing.JFrame {
         db.desconectar();
         mod.setCorreo(correo);
         actualizarTablaContactos();
+        actualizarContactosMsj();
+        actualizarContactosLlamada();
         tf_modcor.setText("");
     }//GEN-LAST:event_jButton6MouseClicked
 
@@ -745,7 +784,9 @@ public class Principal extends javax.swing.JFrame {
         }
         db.desconectar();
         mod.setDireccion(direccion);
+        actualizarContactosMsj();
         actualizarTablaContactos();
+        actualizarContactosLlamada();
         ta_moddir.setText("");
     }//GEN-LAST:event_jButton7MouseClicked
 
@@ -761,6 +802,8 @@ public class Principal extends javax.swing.JFrame {
         db.desconectar();
         mod.setEdad(edad);
         actualizarTablaContactos();
+        actualizarContactosMsj();
+        actualizarContactosLlamada();
         sp_modedad.setValue(0);
     }//GEN-LAST:event_jButton8MouseClicked
 
@@ -785,9 +828,56 @@ public class Principal extends javax.swing.JFrame {
                 db.desconectar();
                 contactos.remove(mod);
                 actualizarTablaContactos();
+                actualizarContactosMsj();
+                actualizarContactosLlamada();
             }
         }
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        if(Tabla_contmsj.getSelectedRow()>=0){
+            String n=Tabla_contmsj.getValueAt(Tabla_contmsj.getSelectedRow(), 1).toString();
+            for (Contacto c : contactos) {
+                if(c.getNumero().equals(n)){
+                    mod=c;
+                    break;
+                }
+            }
+            if(ta_msj.getText().isEmpty()){
+                JOptionPane.showMessageDialog(this, "Debe escribir un mensaje para poder enviarlo");
+            }else{
+                Date d=new Date();
+                SimpleDateFormat f=new SimpleDateFormat("dd/MM/yyyy");
+                String texto=ta_msj.getText();
+                db.conectar();
+                try {
+                    db.query.execute("INSERT INTO mensajes"+" (emisor,receptor,fecha,mensaje)"+" VALUES ('"+actual.getNombre()+"','"+mod.getNombre()+"','"+f.format(d)+"','"+texto+"')");
+                    db.commit();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mensajes.add(new Mensaje(actual.getNombre(), mod.getNombre(), f.format(d), texto));
+                actualizarBuzonMensajes();
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un contacto para poder enviarlo");
+        }
+        ta_msj.setText("");
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jb_llamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_llamarMouseClicked
+        if(Tabla_contllam.getSelectedRow()>=0){
+            String n=Tabla_contllam.getValueAt(Tabla_contllam.getSelectedRow(), 1).toString();
+            for (Contacto c : contactos) {
+                if(c.getNumero().equals(n)){
+                    mod=c;
+                    break;
+                }
+            }
+            al.start();
+        }
+    }//GEN-LAST:event_jb_llamarMouseClicked
 
     public void actualizarTablaContactos(){
         Tabla_contactos.setModel(new javax.swing.table.DefaultTableModel(
@@ -821,6 +911,105 @@ public class Principal extends javax.swing.JFrame {
         Tabla_contactos.setModel(m);
     }
     
+    public void actualizarContactosMsj(){
+        Tabla_contmsj.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Numero"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        DefaultTableModel m=(DefaultTableModel)Tabla_contmsj.getModel();
+        for (Contacto c : contactos) {
+            Object[] info={c.getNombre(),c.getNumero()};
+            m.addRow(info);
+        }
+        Tabla_contmsj.setModel(m);
+        
+    }
+    
+    public void actualizarBuzonMensajes(){
+        Tabla_buzonmsjs.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Emisor", "Receptor", "Fecha", "Mensaje"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        DefaultTableModel m=(DefaultTableModel)Tabla_buzonmsjs.getModel();
+        for (Mensaje me : mensajes) {
+            Object[] info={me.getEmisor(),me.getReceptor(),me.getFecha(),me.getContenido()};
+            m.addRow(info);
+        }
+        Tabla_buzonmsjs.setModel(m);
+    }
+    
+    public void actualizarContactosLlamada(){
+        Tabla_contllam.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Numero"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        DefaultTableModel m=(DefaultTableModel)Tabla_contllam.getModel();
+        for (Contacto c : contactos) {
+            Object[] info={c.getNombre(),c.getNumero()};
+            m.addRow(info);
+        }
+        Tabla_contllam.setModel(m);
+    }
+    
     public void leerContactos(){
         db.conectar();
         try {
@@ -828,6 +1017,20 @@ public class Principal extends javax.swing.JFrame {
             ResultSet rs=db.query.getResultSet();
             while(rs.next()){
                 contactos.add(new Contacto(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        db.desconectar();
+    }
+    
+    public void leerMensajes(){
+        db.conectar();
+        try {
+            db.query.execute("select emisor,receptor,fecha,mensaje from mensajes");
+            ResultSet rs=db.query.getResultSet();
+            while(rs.next()){
+                mensajes.add(new Mensaje(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -892,6 +1095,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -927,10 +1131,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField tf_modcor;
     private javax.swing.JTextField tf_modnom;
     private javax.swing.JTextField tf_nombre;
+    private javax.swing.JLabel tiempo_llamada;
     // End of variables declaration//GEN-END:variables
     Contacto actual=new Contacto("Tu", 18, "3123-4545", "lab8@hotmail.com", "Bo. San Rafael");
     ArrayList<Contacto> contactos=new ArrayList();
     ArrayList<Mensaje> mensajes=new ArrayList();
     Dba db=new Dba("./Contactos.accdb");
     Contacto mod=null;
+    adminLlamada al;
 }
