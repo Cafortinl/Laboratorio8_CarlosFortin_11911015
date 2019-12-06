@@ -101,6 +101,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel11.setText("Nombre");
 
         jButton4.setText("Cambiar nombre");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
 
         jLabel12.setText("Numero");
 
@@ -111,10 +116,20 @@ public class Principal extends javax.swing.JFrame {
         }
 
         jButton5.setText("Cambiar numero");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
 
         jLabel13.setText("Correo");
 
         jButton6.setText("Cambiar correo");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
 
         jLabel14.setText("Direccion");
 
@@ -123,10 +138,22 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane7.setViewportView(ta_moddir);
 
         jButton7.setText("Cambiar direccion");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
 
         jLabel15.setText("Edad");
 
+        sp_modedad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
         jButton8.setText("Cambiar edad");
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jd_modcontLayout = new javax.swing.GroupLayout(jd_modcont.getContentPane());
         jd_modcont.getContentPane().setLayout(jd_modcontLayout);
@@ -343,6 +370,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jButton3.setText("Eliminar");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -620,6 +652,7 @@ public class Principal extends javax.swing.JFrame {
                         Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     db.desconectar();
+                    actualizarTablaContactos();
             } 
         }
         tf_nombre.setText("");
@@ -645,6 +678,116 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un contacto para poder modificarlo");
         }
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        String nombre=tf_modnom.getText();
+        db.conectar();
+        try {
+            db.query.execute("update contactos set nombre='"+nombre+"' where numero='"+mod.getNumero()+"'");
+            db.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        db.desconectar();
+        mod.setNombre(nombre);
+        actualizarTablaContactos();
+        tf_modnom.setText("");
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        String numero=ff_modtel.getText();
+        boolean x=true;
+        for (Contacto c : contactos) {
+            if(c.getNumero().equals(numero)){
+                JOptionPane.showMessageDialog(jd_modcont, "No pueden haber 2 contactos con el mismo numero");
+                x=false;
+                break;
+            }
+        }
+        if(x){
+            db.conectar();
+            try {
+                db.query.execute("update contactos set numero='"+numero+"' where numero='"+mod.getNumero()+"'");
+                db.commit();
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            db.desconectar();
+            mod.setNumero(numero);
+            actualizarTablaContactos();
+        }
+        ff_modtel.setText("");
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        String correo=tf_modcor.getText();
+        db.conectar();
+        try {
+            db.query.execute("update contactos set correo='"+correo+"' where numero='"+mod.getNumero()+"'");
+            db.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        db.desconectar();
+        mod.setCorreo(correo);
+        actualizarTablaContactos();
+        tf_modcor.setText("");
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        String direccion=ta_moddir.getText();
+        db.conectar();
+        try {
+            db.query.execute("update contactos set direccion='"+direccion+"' where numero='"+mod.getNumero()+"'");
+            db.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        db.desconectar();
+        mod.setDireccion(direccion);
+        actualizarTablaContactos();
+        ta_moddir.setText("");
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        int edad=(int)sp_modedad.getValue();
+        db.conectar();
+        try {
+            db.query.execute("update contactos set edad="+edad+" where numero='"+mod.getNumero()+"'");
+            db.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        db.desconectar();
+        mod.setEdad(edad);
+        actualizarTablaContactos();
+        sp_modedad.setValue(0);
+    }//GEN-LAST:event_jButton8MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        if(Tabla_contactos.getSelectedRow()>=0){
+            String n=Tabla_contactos.getValueAt(Tabla_contactos.getSelectedRow(), 1).toString();
+            for (Contacto c : contactos) {
+                if(c.getNumero().equals(n)){
+                    mod=c;
+                    break;
+                }
+            }
+            char r=JOptionPane.showInputDialog("Seguro que desea eliminar a "+mod.getNombre()+"?\n"+"S/N").charAt(0);
+            if(r=='s' || r=='S'){
+                db.conectar();
+                try {
+                    db.query.execute("delete from contactos where numero='"+mod.getNumero()+"'");
+                    db.commit();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                db.desconectar();
+                contactos.remove(mod);
+                actualizarTablaContactos();
+            }
+        }
+    }//GEN-LAST:event_jButton3MouseClicked
 
     public void actualizarTablaContactos(){
         Tabla_contactos.setModel(new javax.swing.table.DefaultTableModel(
