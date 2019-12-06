@@ -13,16 +13,11 @@ import javax.swing.Timer;
  */
 public class adminLlamada extends Thread{
     private JLabel tiempo;
-    private String emisor;
-    private String receptor;
     private boolean vive;
-    private ArrayList<llamada> llamadas=new ArrayList();
 
-    public adminLlamada(JLabel tiempo,String emisor,String receptor) {
+    public adminLlamada(JLabel tiempo) {
         this.tiempo = tiempo;
         this.vive=true;
-        this.emisor=emisor;
-        this.receptor=receptor;
     }
 
     public JLabel getTiempo() {
@@ -33,22 +28,6 @@ public class adminLlamada extends Thread{
         this.tiempo = hora;
     }
 
-    public String getEmisor() {
-        return emisor;
-    }
-
-    public void setEmisor(String emisor) {
-        this.emisor = emisor;
-    }
-
-    public String getReceptor() {
-        return receptor;
-    }
-
-    public void setReceptor(String receptor) {
-        this.receptor = receptor;
-    }
-
     public boolean isVive() {
         return vive;
     }
@@ -57,14 +36,6 @@ public class adminLlamada extends Thread{
         this.vive = vive;
     }
 
-    public ArrayList<llamada> getLlamadas() {
-        return llamadas;
-    }
-
-    public void setLlamadas(ArrayList<llamada> llamadas) {
-        this.llamadas = llamadas;
-    }
-    
     
     
     @Override
@@ -79,11 +50,7 @@ public class adminLlamada extends Thread{
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
-        }
-        Date d=new Date();
-        DateFormat f=new SimpleDateFormat("dd/MM/yyyy");
-        llamadas.add(new llamada(emisor, receptor, f.format(d), tiempo.getText()));
-        System.out.println(llamadas);
-        tiempo.setText("00:00:00");  
+        }  
     }
+    
 }

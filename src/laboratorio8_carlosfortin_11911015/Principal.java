@@ -8,6 +8,7 @@ package laboratorio8_carlosfortin_11911015;
 import com.healthmarketscience.jackcess.query.Query;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -914,13 +915,17 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 }
             }
-            al=new adminLlamada(tiempo_llamada, actual.getNombre(), mod.getNombre());
+            al=new adminLlamada(tiempo_llamada);
             al.start();
         }
     }//GEN-LAST:event_jb_llamarMouseClicked
 
     private void jb_colgarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_colgarMouseClicked
         al.setVive(false);
+        Date d=new Date();
+        DateFormat f=new SimpleDateFormat("dd/MM/yyyy");
+        llamadas.add(new llamada(actual.getNombre(), mod.getNombre(), f.format(d), tiempo_llamada.getText()));
+        tiempo_llamada.setText("00:00:00");
         actualizarRegistroLlamadas();
     }//GEN-LAST:event_jb_colgarMouseClicked
 
@@ -1109,7 +1114,7 @@ public class Principal extends javax.swing.JFrame {
         });
         
         DefaultTableModel m=(DefaultTableModel)Tabla_llamadas.getModel();
-        for (llamada l : al.getLlamadas()) {
+        for (llamada l : llamadas) {
             Object[] info={l.getEmisor(),l.getReceptor(),l.getFecha(),l.getDuracion()};
             m.addRow(info);
         }
@@ -1216,6 +1221,7 @@ public class Principal extends javax.swing.JFrame {
     Contacto actual=new Contacto("Tu", 18, "3123-4545", "lab8@hotmail.com", "Bo. San Rafael");
     ArrayList<Contacto> contactos=new ArrayList();
     ArrayList<Mensaje> mensajes=new ArrayList();
+    ArrayList<llamada> llamadas=new ArrayList();
     Dba db=new Dba("./Contactos.accdb");
     Contacto mod=null;
     adminLlamada al;
