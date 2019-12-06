@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 /**
  *
@@ -17,7 +18,7 @@ public class adminLlamada extends Thread{
     private boolean vive;
     private ArrayList<llamada> llamadas=new ArrayList();
 
-    public adminLlamada(JLabel hora,String emisor,String receptor) {
+    public adminLlamada(JLabel tiempo,String emisor,String receptor) {
         this.tiempo = tiempo;
         this.vive=true;
         this.emisor=emisor;
@@ -31,12 +32,46 @@ public class adminLlamada extends Thread{
     public void setTiempo(JLabel hora) {
         this.tiempo = hora;
     }
+
+    public String getEmisor() {
+        return emisor;
+    }
+
+    public void setEmisor(String emisor) {
+        this.emisor = emisor;
+    }
+
+    public String getReceptor() {
+        return receptor;
+    }
+
+    public void setReceptor(String receptor) {
+        this.receptor = receptor;
+    }
+
+    public boolean isVive() {
+        return vive;
+    }
+
+    public void setVive(boolean vive) {
+        this.vive = vive;
+    }
+
+    public ArrayList<llamada> getLlamadas() {
+        return llamadas;
+    }
+
+    public void setLlamadas(ArrayList<llamada> llamadas) {
+        this.llamadas = llamadas;
+    }
+    
+    
     
     @Override
     public void run(){
         while(true){
             if(vive){
-                Date h=new Date();
+                Date h=new Date(activeCount());
                 SimpleDateFormat f=new SimpleDateFormat("mm:ss");
                 tiempo.setText(f.format(h));
                 try {

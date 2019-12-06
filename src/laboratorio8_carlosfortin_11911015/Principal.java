@@ -33,7 +33,7 @@ public class Principal extends javax.swing.JFrame {
         actualizarContactosMsj();
         actualizarContactosLlamada();
         actualizarBuzonMensajes();
-        al=new adminLlamada(tiempo_llamada, actual.getNombre(), mod.getNombre());
+        
     }
 
     /**
@@ -103,6 +103,8 @@ public class Principal extends javax.swing.JFrame {
         tiempo_llamada = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        Tabla_llamadas = new javax.swing.JTable();
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel10.setText("Modificar Contacto");
@@ -569,6 +571,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jb_colgar.setText("Colgar");
+        jb_colgar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_colgarMouseClicked(evt);
+            }
+        });
 
         tiempo_llamada.setText("00:00");
 
@@ -615,15 +622,46 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Telefono", jPanel5);
 
+        Tabla_llamadas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Emisor", "Receptor", "Fecha", "Duracion"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(Tabla_llamadas);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 724, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro de Llamadas", jPanel6);
@@ -875,9 +913,15 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 }
             }
+            al=new adminLlamada(tiempo_llamada, actual.getNombre(), mod.getNombre());
             al.start();
         }
     }//GEN-LAST:event_jb_llamarMouseClicked
+
+    private void jb_colgarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_colgarMouseClicked
+        al.setVive(false);
+        actualizarRegistroLlamadas();
+    }//GEN-LAST:event_jb_colgarMouseClicked
 
     public void actualizarTablaContactos(){
         Tabla_contactos.setModel(new javax.swing.table.DefaultTableModel(
@@ -1038,6 +1082,39 @@ public class Principal extends javax.swing.JFrame {
         db.desconectar();
     }
     
+    public void actualizarRegistroLlamadas(){
+        Tabla_llamadas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Emisor", "Receptor", "Fecha", "Duracion"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        DefaultTableModel m=(DefaultTableModel)Tabla_llamadas.getModel();
+        for (llamada l : al.getLlamadas()) {
+            Object[] info={l.getEmisor(),l.getReceptor(),l.getFecha(),l.getDuracion()};
+            m.addRow(info);
+        }
+        Tabla_llamadas.setModel(m);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -1078,6 +1155,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable Tabla_contactos;
     private javax.swing.JTable Tabla_contllam;
     private javax.swing.JTable Tabla_contmsj;
+    private javax.swing.JTable Tabla_llamadas;
     private javax.swing.JFormattedTextField ff_modtel;
     private javax.swing.JFormattedTextField ff_numero;
     private javax.swing.JButton jButton1;
@@ -1117,6 +1195,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jb_agregar;
     private javax.swing.JButton jb_colgar;
