@@ -69,21 +69,20 @@ public class adminLlamada extends Thread{
     
     @Override
     public void run(){
-        while(true){
-            if(vive){
-                Date h=new Date(activeCount());
-                SimpleDateFormat f=new SimpleDateFormat("mm:ss");
-                tiempo.setText(f.format(h));
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                }
-            }else{
-                Date d=new Date();
-                DateFormat f=new SimpleDateFormat("dd/MM/yyyy");
-                llamadas.add(new llamada(emisor, receptor, f.format(d), tiempo.getText()));
-                tiempo.setText("00:00");
+        Date h=new Date(0);
+        while(vive){
+            h.setSeconds(h.getSeconds()+1);
+            SimpleDateFormat f=new SimpleDateFormat("mm:ss");
+            tiempo.setText(f.format(h));
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
             }
         }
+        Date d=new Date();
+        DateFormat f=new SimpleDateFormat("dd/MM/yyyy");
+        llamadas.add(new llamada(emisor, receptor, f.format(d), tiempo.getText()));
+        System.out.println(llamadas);
+        tiempo.setText("00:00");    
     }
 }
