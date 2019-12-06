@@ -5,11 +5,14 @@
  */
 package laboratorio8_carlosfortin_11911015;
 
+import com.healthmarketscience.jackcess.query.Query;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +25,8 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        leerContactos();
+        actualizarTablaContactos();
     }
 
     /**
@@ -33,6 +38,24 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jd_modcont = new javax.swing.JDialog();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        tf_modnom = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        ff_modtel = new javax.swing.JFormattedTextField();
+        jButton5 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        tf_modcor = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        ta_moddir = new javax.swing.JTextArea();
+        jButton7 = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        sp_modedad = new javax.swing.JSpinner();
+        jButton8 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -51,6 +74,8 @@ public class Principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabla_contactos = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -69,6 +94,127 @@ public class Principal extends javax.swing.JFrame {
         jb_llamar = new javax.swing.JButton();
         jb_colgar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel10.setText("Modificar Contacto");
+
+        jLabel11.setText("Nombre");
+
+        jButton4.setText("Cambiar nombre");
+
+        jLabel12.setText("Numero");
+
+        try {
+            ff_modtel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jButton5.setText("Cambiar numero");
+
+        jLabel13.setText("Correo");
+
+        jButton6.setText("Cambiar correo");
+
+        jLabel14.setText("Direccion");
+
+        ta_moddir.setColumns(20);
+        ta_moddir.setRows(5);
+        jScrollPane7.setViewportView(ta_moddir);
+
+        jButton7.setText("Cambiar direccion");
+
+        jLabel15.setText("Edad");
+
+        jButton8.setText("Cambiar edad");
+
+        javax.swing.GroupLayout jd_modcontLayout = new javax.swing.GroupLayout(jd_modcont.getContentPane());
+        jd_modcont.getContentPane().setLayout(jd_modcontLayout);
+        jd_modcontLayout.setHorizontalGroup(
+            jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_modcontLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(210, 210, 210))
+            .addGroup(jd_modcontLayout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addComponent(jButton7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jd_modcontLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_modcontLayout.createSequentialGroup()
+                        .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jd_modcontLayout.createSequentialGroup()
+                                .addComponent(tf_modnom, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton4))
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel13)
+                            .addGroup(jd_modcontLayout.createSequentialGroup()
+                                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(tf_modcor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ff_modtel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton5)
+                                    .addComponent(jButton6))))
+                        .addContainerGap())
+                    .addGroup(jd_modcontLayout.createSequentialGroup()
+                        .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jd_modcontLayout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jd_modcontLayout.createSequentialGroup()
+                                .addComponent(sp_modedad, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                                .addGap(210, 210, 210))
+                            .addGroup(jd_modcontLayout.createSequentialGroup()
+                                .addComponent(jButton8)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+        );
+        jd_modcontLayout.setVerticalGroup(
+            jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_modcontLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel10)
+                .addGap(40, 40, 40)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_modnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ff_modtel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_modcor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addGap(18, 18, 18)
+                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_modcontLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jd_modcontLayout.createSequentialGroup()
+                        .addComponent(sp_modedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton8)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton7)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,6 +335,15 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(Tabla_contactos);
 
+        jButton2.setText("Modificar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
+        jButton3.setText("Eliminar");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -197,13 +352,23 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(101, 101, 101))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Lista de Contactos", jPanel2);
@@ -428,30 +593,34 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jb_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_agregarMouseClicked
-        String nombre=tf_nombre.getText();
-        String numero=ff_numero.getText();
-        int edad=(int)sp_edad.getValue();
-        String correo=tf_correo.getText();
-        String direccion=ta_direccion.getText();
-        boolean x=true;
-        for (Contacto c : contactos) {
-            if(c.getNumero().equals(numero)){
-                x=false;
-                JOptionPane.showMessageDialog(this, "No pueden haber 2 contactos con el mismo numero");
-                break;
-            }
-        }
-        
-        if(x){
-                contactos.add(new Contacto(nombre, edad, numero, correo, direccion));
-                db.conectar();
-                try {
-                    db.query.execute("INSERT INTO contactos"+" (numero,nombre,edad,correo,direccion)"+" VALUES ('"+numero+"','"+nombre+"',"+edad+",'"+correo+"','"+direccion+"')");
-                    db.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        if(tf_nombre.getText().isEmpty() || ff_numero.getText().isEmpty() || tf_correo.getText().isEmpty() || ta_direccion.getText().isEmpty()){
+           JOptionPane.showMessageDialog(this, "No se pudo agregar el contacto, hay campos vacios");
+        }else{
+           String nombre=tf_nombre.getText();
+            String numero=ff_numero.getText();
+            int edad=(int)sp_edad.getValue();
+            String correo=tf_correo.getText();
+            String direccion=ta_direccion.getText();
+            boolean x=true;
+            for (Contacto c : contactos) {
+                if(c.getNumero().equals(numero)){
+                    x=false;
+                    JOptionPane.showMessageDialog(this, "No pueden haber 2 contactos con el mismo numero");
+                    break;
                 }
-                db.desconectar();
+            }
+
+            if(x){
+                    contactos.add(new Contacto(nombre, edad, numero, correo, direccion));
+                    db.conectar();
+                    try {
+                        db.query.execute("INSERT INTO contactos"+" (numero,nombre,edad,correo,direccion)"+" VALUES ('"+numero+"','"+nombre+"',"+edad+",'"+correo+"','"+direccion+"')");
+                        db.commit();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    db.desconectar();
+            } 
         }
         tf_nombre.setText("");
         tf_correo.setText("");
@@ -460,6 +629,69 @@ public class Principal extends javax.swing.JFrame {
         ta_direccion.setText("");
     }//GEN-LAST:event_jb_agregarMouseClicked
 
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        if(Tabla_contactos.getSelectedRow()>=0){
+            jd_modcont.setVisible(true);
+            jd_modcont.pack();
+            jd_modcont.setLocationRelativeTo(this);
+            String n=Tabla_contactos.getValueAt(Tabla_contactos.getSelectedRow(), 1).toString();
+            for (Contacto c : contactos) {
+                if(c.getNumero().equals(n)){
+                    mod=c;
+                    break;
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un contacto para poder modificarlo");
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    public void actualizarTablaContactos(){
+        Tabla_contactos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Numero", "Edad", "Correo", "Direccion"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        DefaultTableModel m=(DefaultTableModel)Tabla_contactos.getModel();
+        for (Contacto c : contactos) {
+            Object[] info={c.getNombre(),c.getNumero(),c.getEdad(),c.getCorreo(),c.getDireccion()};
+            m.addRow(info);
+        }
+        Tabla_contactos.setModel(m);
+    }
+    
+    public void leerContactos(){
+        db.conectar();
+        try {
+            db.query.execute("select nombre,edad,numero,correo,direccion from contactos");
+            ResultSet rs=db.query.getResultSet();
+            while(rs.next()){
+                contactos.add(new Contacto(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        db.desconectar();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -500,9 +732,23 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable Tabla_contactos;
     private javax.swing.JTable Tabla_contllam;
     private javax.swing.JTable Tabla_contmsj;
+    private javax.swing.JFormattedTextField ff_modtel;
     private javax.swing.JFormattedTextField ff_numero;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -523,18 +769,25 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jb_agregar;
     private javax.swing.JButton jb_colgar;
     private javax.swing.JButton jb_llamar;
+    private javax.swing.JDialog jd_modcont;
     private javax.swing.JSpinner sp_edad;
+    private javax.swing.JSpinner sp_modedad;
     private javax.swing.JTextArea ta_direccion;
+    private javax.swing.JTextArea ta_moddir;
     private javax.swing.JTextArea ta_msj;
     private javax.swing.JTextField tf_correo;
+    private javax.swing.JTextField tf_modcor;
+    private javax.swing.JTextField tf_modnom;
     private javax.swing.JTextField tf_nombre;
     // End of variables declaration//GEN-END:variables
     Contacto actual=new Contacto("Tu", 18, "3123-4545", "lab8@hotmail.com", "Bo. San Rafael");
     ArrayList<Contacto> contactos=new ArrayList();
     ArrayList<Mensaje> mensajes=new ArrayList();
     Dba db=new Dba("./Contactos.accdb");
+    Contacto mod=null;
 }
