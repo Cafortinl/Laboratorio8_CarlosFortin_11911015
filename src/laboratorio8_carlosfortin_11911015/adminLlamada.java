@@ -69,13 +69,14 @@ public class adminLlamada extends Thread{
     
     @Override
     public void run(){
-        Date h=new Date(0);
+        Date h=new Date(21600000);
         while(vive){
             h.setSeconds(h.getSeconds()+1);
-            SimpleDateFormat f=new SimpleDateFormat("mm:ss");
+            System.out.println(h);
+            SimpleDateFormat f=new SimpleDateFormat("HH:mm:ss");
             tiempo.setText(f.format(h));
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
         }
@@ -83,6 +84,6 @@ public class adminLlamada extends Thread{
         DateFormat f=new SimpleDateFormat("dd/MM/yyyy");
         llamadas.add(new llamada(emisor, receptor, f.format(d), tiempo.getText()));
         System.out.println(llamadas);
-        tiempo.setText("00:00");    
+        tiempo.setText("00:00:00");  
     }
 }

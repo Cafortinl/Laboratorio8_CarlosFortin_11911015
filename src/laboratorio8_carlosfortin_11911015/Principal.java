@@ -577,7 +577,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        tiempo_llamada.setText("00:00");
+        tiempo_llamada.setText("00:00:00");
 
         jLabel16.setText("Tiempo de llamada");
 
@@ -592,8 +592,9 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel16)
-                        .addGap(75, 75, 75)
-                        .addComponent(tiempo_llamada))
+                        .addGap(38, 38, 38)
+                        .addComponent(tiempo_llamada)
+                        .addGap(37, 37, 37))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()

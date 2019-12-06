@@ -695,8 +695,9 @@
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                               <Component id="tiempo_llamada" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane6" min="-2" pref="680" max="-2" attributes="0"/>
                       </Group>
@@ -775,7 +776,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="tiempo_llamada">
               <Properties>
-                <Property name="text" type="java.lang.String" value="00:00"/>
+                <Property name="text" type="java.lang.String" value="00:00:00"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel16">
